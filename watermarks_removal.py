@@ -260,11 +260,11 @@ class Watermark(object):
                 print('Iteration {:5d} total_loss {:5f} grad {:5f} PSNR {:5f} '.format(iter_number, self.total_loss.item(),
                                                                                        self.current_gradient.item(),
                                                                                        self.current_psnr),
-                      '\r', end='')
+                      '\r')
             else:
                 print('Iteration {:5d} total_loss {:5f} PSNR {:5f} '.format(iter_number, self.total_loss.item(),
                                                                             self.current_psnr),
-                      '\r', end='')
+                      '\r',)
 
     def _step_plot_closure(self, step_number):
         """
@@ -517,7 +517,7 @@ class ManyImagesWatermarkNoHint(object):
             self.current_psnr = compare_psnr(self.images[0], clean_out_nps[0] * (1 - mask_out_np) +
                                              mask_out_np * watermark_out_np)
             print('Iteration {:5d} PSNR {:5f} '.format(iteration, self.current_psnr),
-                      '\r', end='')
+                      '\r')
 
     def _step_plot_closure(self, step_number):
         """

@@ -62,7 +62,7 @@ DehazeResult = namedtuple("DehazeResult", ['learned', 't', 'a', 'psnr'])
 
 class Dehaze(object):
     def __init__(self, image_name, image, num_iter=8000, plot_during_training=True,
-                 show_every=500,
+                 show_every=50,
                  use_deep_channel_prior=True,
                  gt_ambient=None, clip=True):
         self.image_name = image_name
@@ -278,7 +278,7 @@ class Dehaze(object):
         print('Iteration %05d    Loss %f  %f current_psnr: %f max_psnr %f' % (step, self.total_loss.item(),
                                                                               self.blur_out.item(),
                                                                            self.current_result.psnr,
-                                                                           self.best_result.psnr), '\r', end='')
+                                                                           self.best_result.psnr), '\r')
         if step % self.show_every == self.show_every - 1:
             plot_image_grid("t_and_amb", [ self.best_result.a * np.ones_like(self.best_result.learned), self.best_result.t])
             # original_image = t*image + (1-t)*A
@@ -307,7 +307,7 @@ class Dehaze(object):
 
 
 def dehaze(image_name, image, num_iter=4000, plot_during_training=True,
-           show_every=500,
+           show_every=50,
            use_deep_channel_prior=True,
            gt_ambient=None):
     dh = Dehaze(image_name + "_0", image, num_iter, plot_during_training, show_every, use_deep_channel_prior,

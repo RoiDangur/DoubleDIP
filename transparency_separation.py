@@ -12,7 +12,7 @@ TwoImagesSeparationResult = namedtuple("TwoImagesSeparationResult",
                                        ["reflection", "transmission", "psnr", "alpha1", "alpha2"])
 
 class TwoImagesSeparation(object):
-    def __init__(self, image1_name, image2_name, image1, image2, plot_during_training=True, show_every=500, num_iter=4000,
+    def __init__(self, image1_name, image2_name, image1, image2, plot_during_training=True, show_every=50, num_iter=4000,
                  original_reflection=None, original_transmission=None):
         # we assume the reflection is static
         self.image1 = image1
@@ -201,7 +201,7 @@ class TwoImagesSeparation(object):
                                                                                     self.total_loss.item(),
                                                                                     self.exclusion.item(),
                                                                                     self.current_result.psnr),
-              '\r', end='')
+              '\r')
         if self.plot_during_training and step % self.show_every == self.show_every - 1:
             plot_image_grid("reflection_transmission_{}".format(step),
                             [self.current_result.reflection, self.current_result.transmission])
@@ -221,7 +221,7 @@ class TwoImagesSeparation(object):
 
 
 class Separation(object):
-    def __init__(self, image_name, image, plot_during_training=True, show_every=500, num_iter=8000,
+    def __init__(self, image_name, image, plot_during_training=True, show_every=50, num_iter=8000,
                  original_reflection=None, original_transmission=None):
         self.image = image
         self.plot_during_training = plot_during_training
@@ -373,7 +373,7 @@ class Separation(object):
         print('Iteration {:5d}    Loss {:5f}  PSRN_gt: {:f}'.format(step,
                                                                                self.total_loss.item(),
                                                                                self.current_result.psnr),
-              '\r', end='')
+              '\r')
         if step % self.show_every == self.show_every - 1:
             plot_image_grid("left_right_{}".format(step), [self.current_result.reflection, self.current_result.transmission])
             
@@ -400,12 +400,14 @@ if __name__ == "__main__":
     # Separation from two images
     input1 = prepare_image('images/input1.jpg')
     input2 = prepare_image('images/input2.jpg')
-    t = TwoImagesSeparation('input1', 'input2', input1, input2, num_iter=7000)
+    t = TwoImagesSeparation('input1', 'input2', input1, input2, num_iter=20000)
     t.optimize()
     t.finalize()
     # Separation of textures
-    t1 = prepare_image('images/texture12.jpg')
-    t2 = prepare_image('images/texture16.jpg')
-    s = Separation('textures', (t1+t2)/2)
-    s.optimize()
-    s.finalize()
+    # t1 = prepare_image('images/texture12.jpg')
+    # t2 = prepare_image('images/texture16.jpg')
+    # t1 = prepare_image('images/proj.png')
+    # t2 = prepare_image('images/proj.png')
+    # s = Separation('textures', (t1+t2)/2)
+    # s.optimize()
+    # s.finalize()
